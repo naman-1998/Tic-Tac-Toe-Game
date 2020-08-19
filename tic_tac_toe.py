@@ -5,66 +5,69 @@ import time
 #game_input=["Null",'X','O','X','O','X','O','X','O','X']
 
 def board(game_input):
-	print(game_input[7]+'|'+game_input[8]+'|'+game_input[9])
-	print(game_input[4]+'|'+game_input[5]+'|'+game_input[6])
-	print(game_input[1]+'|'+game_input[2]+'|'+game_input[3])
-	print('-----')
+
+    print(game_input[1]+'|'+game_input[2]+'|'+game_input[3])
+    print(game_input[4]+'|'+game_input[5]+'|'+game_input[6])
+    print(game_input[7]+'|'+game_input[8]+'|'+game_input[9])
+    print('-----')
 
 def player_input():
-	marker=''
-	while marker!='X' and marker!='O':
-		marker=input('Player: Please chose your marker: ')
-	if marker=='X':
-		return ('X','O')
-	else:
-		return ('O','X')
+    marker=''
+    while marker!='X' or marker!='x' or  marker!='O' or marker!='o':
+        marker=input('Player: Please chose your marker between (X,O): ')
+        if marker=='X' or marker== 'x':
+            return ('X','O')
+        elif marker == 'O' or marker== 'o':
+            return ('O','X')
+        #else:
+        #    print("Choose between X and O")
 
 
 def put_marker(game_input,marker,position):
-	game_input[position]=marker
+    game_input[position]=marker
 
-def win(game_input,marker):	
-	return ((game_input[1]==game_input[2]==game_input[3]==marker) or
-		   (game_input[4]==game_input[5]==game_input[6]==marker) or
-		   (game_input[7]==game_input[8]==game_input[9]==marker) or
-		   (game_input[3]==game_input[5]==game_input[7]==marker) or
-		   (game_input[1]==game_input[5]==game_input[9]==marker) or
-		   (game_input[1]==game_input[4]==game_input[7]==marker) or
-		   (game_input[3]==game_input[6]==game_input[9]==marker) or
-		   (game_input[2]==game_input[5]==game_input[8]==marker))
+def win(game_input,marker):
+    return ((game_input[1]==game_input[2]==game_input[3]==marker) or
+           (game_input[4]==game_input[5]==game_input[6]==marker) or
+           (game_input[7]==game_input[8]==game_input[9]==marker) or
+           (game_input[3]==game_input[5]==game_input[7]==marker) or
+           (game_input[1]==game_input[5]==game_input[9]==marker) or
+           (game_input[1]==game_input[4]==game_input[7]==marker) or
+           (game_input[3]==game_input[6]==game_input[9]==marker) or
+           (game_input[2]==game_input[5]==game_input[8]==marker))
 
 def chose_player():
-	player=random.randint(1,2)
-	if player ==1:
-		return 'player1'
-	else:
-		return 'player2'
+    player=random.randint(1,2)
+    if player ==1:
+        return 'player1'
+    else:
+        return 'player2'
 
 def space(game_input,position):
-	return game_input[position]==' '
+    return game_input[position]==' '
 
 def full_board_check(game_input):
-	for i in range(1,10):
-		if space(game_input,i):
-			return False
-	return True
+    for i in range(1,10):
+        if space(game_input,i):
+            return False
+    return True
 
-def player_choice(game_input):	
-	position=0
-	while position not in [1,2,3,4,5,6,7,8,9] or not space(game_input,position):
-		position=int(input('Please chose your position(1-9): '))
-	return position
+def player_choice(game_input):
+    position=0
+    while position not in [1,2,3,4,5,6,7,8,9] or not space(game_input,position):
+        position=int(input('Please chose your position(1-9): '))
+    return position
 
 def play_again():
-	choice=input('Would you like to play again[Y/N]: ')
-	return choice=='Y'
+    choice=input('Would you like to play again[Y/N]: ')
+    return choice=='Y' or choice =='y'
 
 def getBoardCopy(board):
     dupBoard = []
     for i in board:
         dupBoard.append(i)
     return dupBoard
-    
+
 def chooseRandomMoveFromList(board, movesList):
     possibleMoves = []
     for i in movesList:
@@ -80,7 +83,7 @@ def computer_choice(board, computerMarker):
         playerMarker = 'O'
     else:
         playerMarker = 'X'
-    
+
     # First, check if we can win in the next move
     for i in range(1, 10):
         if space(board, i):
@@ -88,7 +91,7 @@ def computer_choice(board, computerMarker):
             put_marker(copy,computerMarker, i)
             if win(copy, computerMarker):
                 return i
-                
+
     # Check if the player could win on their next move, and block them.
     for i in range(1, 10):
         if space(board, i):
@@ -96,7 +99,7 @@ def computer_choice(board, computerMarker):
             put_marker(copy, playerMarker, i)
             if win(copy, playerMarker):
                 return i
-    
+
     # Try to take one of the corners, if they are free.
     move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
     if move != None:
@@ -121,12 +124,17 @@ def play_game(l):
     else:
         x=p2
     print(f'{x} will play first')
-    play_game=input('Ready to play[Y/N]: ')
-    if play_game=='Y':
-        game_on=True
-    else:
-        game_on=False
-        
+    play_game1= ''
+    game_on=''
+    while play_game1!='Y' or play_game1!='y' or play_game1!='N' or play_game1!='n' :
+        play_game1=input('Ready to play? Press[Y/N]: ')
+        if play_game1=='Y' or play_game1=='y':
+            game_on=True
+            break
+        elif play_game1=='N' or play_game1=='n':
+            game_on=False
+            break
+
     while game_on:
         if turn=='player1':
             board(the_board)
@@ -164,10 +172,10 @@ def play_game(l):
                 else:
                     turn='player1'
 
-       
+
 
 def main():
-    
+
     while True:
         print("1 : Player vs Player\n2 : Player vs Computer\n")
         choice=0
@@ -188,4 +196,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
